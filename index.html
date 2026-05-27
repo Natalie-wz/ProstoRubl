@@ -587,9 +587,15 @@
       .faq-grid {
         grid-template-columns: 1fr;
       }
+      .hero {
+        padding-bottom: 44px;
+      }
+      h1 {
+        line-height: 1.04;
+      }
       .lead { font-size: 17px; }
       .phone-stage {
-        min-height: 620px;
+        min-height: 520px;
         width: 100vw;
         max-width: 100vw;
         margin-left: calc(50% - 50vw);
@@ -601,11 +607,19 @@
         border-width: 8px;
         border-radius: 30px;
       }
-      .phone--main { top: 0; left: 52%; }
-      .phone--side { top: 112px; left: 8px; }
+      .phone--main {
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%) rotate(3deg);
+      }
+      .phone--side {
+        top: 82px;
+        left: max(14px, calc(50% - 178px));
+        transform: rotate(-7deg) scale(.78);
+      }
       .phone--back { display: none; }
       .trust-card {
-        top: 380px;
+        top: 340px;
         left: 50%;
         right: auto;
         width: min(260px, calc(100% - 28px));
