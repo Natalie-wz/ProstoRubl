@@ -1,0 +1,894 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Просто Рубль - простые задания за деньги</title>
+  <meta name="description" content="Просто Рубль помогает находить простые задания, выполнять их в свободное время и получать оплату.">
+  <style>
+    :root {
+      --bg: #f5f7fb;
+      --surface: #ffffff;
+      --surface-soft: #eef5ff;
+      --ink: #111827;
+      --muted: #5f6b7c;
+      --line: #dce4ef;
+      --blue: #0877ff;
+      --blue-dark: #055fd1;
+      --mint: #1fc7a7;
+      --yellow: #ffd666;
+      --shadow: 0 22px 70px rgba(19, 45, 83, .15);
+      --radius: 8px;
+      font-family: Inter, "Tilda Sans", "Segoe UI", Arial, sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      line-height: 1.5;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    img { display: block; max-width: 100%; }
+
+    .page {
+      overflow: hidden;
+      background: #ffffff;
+    }
+
+    .hero {
+      background:
+        linear-gradient(180deg, #ffffff 0%, #f7fbff 100%);
+      border-bottom: 1px solid rgba(17, 24, 39, .06);
+    }
+
+    .container {
+      width: min(1160px, calc(100% - 40px));
+      margin: 0 auto;
+    }
+
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      border-bottom: 1px solid rgba(17, 24, 39, .08);
+      background: rgba(255, 255, 255, .86);
+      backdrop-filter: blur(18px);
+    }
+
+    .nav__inner {
+      min-height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 800;
+      letter-spacing: 0;
+    }
+
+    .brand__mark {
+      width: 38px;
+      height: 38px;
+      border-radius: 8px;
+      overflow: hidden;
+      background: #050505;
+      box-shadow: 0 12px 30px rgba(8, 119, 255, .24);
+      flex: 0 0 38px;
+    }
+
+    .brand__mark img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .nav__links {
+      display: flex;
+      gap: 24px;
+      align-items: center;
+      color: var(--muted);
+      font-weight: 700;
+      font-size: 14px;
+    }
+
+    .nav__links a:hover { color: var(--blue); }
+
+    .nav__cta {
+      padding: 12px 18px;
+      border-radius: 999px;
+      background: var(--ink);
+      color: #fff;
+      font-weight: 800;
+      box-shadow: 0 14px 34px rgba(17, 24, 39, .16);
+    }
+
+    .hero { padding: 78px 0 86px; }
+
+    .hero__grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.02fr) minmax(330px, .88fr);
+      gap: 58px;
+      align-items: center;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border: 1px solid rgba(8, 119, 255, .16);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, .72);
+      color: var(--blue-dark);
+      font-weight: 800;
+      font-size: 14px;
+    }
+
+    h1 {
+      margin: 22px 0 18px;
+      max-width: 760px;
+      font-size: clamp(42px, 6vw, 76px);
+      line-height: .96;
+      letter-spacing: 0;
+    }
+
+    .lead {
+      max-width: 620px;
+      margin: 0 0 28px;
+      color: var(--muted);
+      font-size: 20px;
+    }
+
+    .hero__meta {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      max-width: 640px;
+      margin: 28px 0 0;
+    }
+
+    .metric {
+      border: 1px solid rgba(17, 24, 39, .08);
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, .72);
+      padding: 15px;
+      min-height: 92px;
+    }
+
+    .metric strong {
+      display: block;
+      font-size: 22px;
+      line-height: 1.1;
+    }
+
+    .metric span {
+      display: block;
+      margin-top: 7px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .download-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      max-width: 560px;
+    }
+
+    .store-btn {
+      min-height: 58px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border: 1px solid rgba(17, 24, 39, .1);
+      border-radius: var(--radius);
+      background: #fff;
+      color: var(--ink);
+      text-align: left;
+      padding: 12px 16px;
+      font-weight: 850;
+      box-shadow: 0 10px 28px rgba(19, 45, 83, .08);
+      transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+    }
+
+    .store-btn:hover {
+      transform: translateY(-2px);
+      border-color: rgba(8, 119, 255, .35);
+      box-shadow: 0 18px 34px rgba(19, 45, 83, .14);
+    }
+
+    .store-btn__icon {
+      width: 28px;
+      height: 28px;
+      flex: 0 0 28px;
+      display: grid;
+      place-items: center;
+    }
+
+    .store-btn__icon img {
+      width: 28px;
+      height: 28px;
+      object-fit: contain;
+    }
+
+    .store-btn small {
+      display: block;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 750;
+      line-height: 1.1;
+    }
+
+    .phone-stage {
+      position: relative;
+      min-height: 660px;
+    }
+
+    .phone {
+      position: absolute;
+      width: 254px;
+      border: 10px solid #12151d;
+      border-radius: 36px;
+      overflow: hidden;
+      background: #fff;
+      box-shadow: var(--shadow);
+    }
+
+    .phone img {
+      width: 100%;
+      height: auto;
+    }
+
+    .phone--main {
+      top: 10px;
+      left: 116px;
+      z-index: 3;
+      transform: rotate(3deg);
+    }
+
+    .phone--side {
+      top: 110px;
+      left: 0;
+      z-index: 2;
+      transform: rotate(-7deg) scale(.92);
+      opacity: .96;
+    }
+
+    .phone--back {
+      top: 240px;
+      right: 0;
+      z-index: 1;
+      transform: rotate(7deg) scale(.86);
+      opacity: .9;
+    }
+
+    .trust-card {
+      position: absolute;
+      right: 18px;
+      top: 80px;
+      z-index: 5;
+      width: 210px;
+      border: 1px solid rgba(17, 24, 39, .08);
+      border-radius: var(--radius);
+      padding: 16px;
+      background: rgba(255, 255, 255, .9);
+      box-shadow: 0 18px 44px rgba(19, 45, 83, .14);
+      backdrop-filter: blur(12px);
+    }
+
+    .trust-card strong {
+      display: block;
+      font-size: 15px;
+      line-height: 1.25;
+    }
+
+    .trust-card span {
+      display: block;
+      margin-top: 6px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    section { padding: 86px 0; }
+
+    .section-head {
+      display: block;
+      text-align: center;
+      margin-bottom: 34px;
+    }
+
+    .section-head h2 {
+      max-width: 700px;
+      margin: 0 auto 18px;
+      font-size: clamp(32px, 4vw, 50px);
+      line-height: 1;
+      letter-spacing: 0;
+    }
+
+    .section-head p {
+      max-width: 580px;
+      margin: 0 auto;
+      color: var(--muted);
+      font-size: 17px;
+    }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .step {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--surface);
+      padding: 24px;
+      min-height: 250px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      box-shadow: 0 14px 34px rgba(19, 45, 83, .07);
+    }
+
+    .step__num {
+      width: 42px;
+      height: 42px;
+      border-radius: 8px;
+      display: grid;
+      place-items: center;
+      background: #e8f2ff;
+      color: var(--blue);
+      font-weight: 900;
+    }
+
+    .step h3 {
+      margin: 24px 0 10px;
+      font-size: 24px;
+      line-height: 1.1;
+    }
+
+    .step p { margin: 0; color: var(--muted); }
+
+    .proof {
+      background: #10151f;
+      color: #fff;
+    }
+
+    .proof .section-head p { color: #b8c2d1; }
+
+    .proof-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+
+    .proof-card {
+      border: 1px solid rgba(255, 255, 255, .12);
+      border-radius: var(--radius);
+      padding: 24px;
+      background: rgba(255, 255, 255, .06);
+    }
+
+    .proof-card strong {
+      display: block;
+      margin-bottom: 9px;
+      font-size: 22px;
+    }
+
+    .proof-card p {
+      margin: 0;
+      color: #c8d1df;
+    }
+
+    .screens {
+      display: grid;
+      grid-template-columns: 1fr 1.15fr;
+      gap: 28px;
+      align-items: center;
+    }
+
+    .screen-copy h2 {
+      margin: 0 0 18px;
+      font-size: clamp(32px, 4vw, 52px);
+      line-height: 1;
+    }
+
+    .screen-copy p {
+      margin: 0 0 22px;
+      color: var(--muted);
+      font-size: 18px;
+    }
+
+    .screen-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .screen-list div {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #fff;
+    }
+
+    .screen-list b {
+      color: var(--blue);
+      flex: 0 0 auto;
+    }
+
+    .screen-strip {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      min-height: 430px;
+    }
+
+    .screen-shot {
+      width: 31%;
+      min-width: 0;
+      border: 8px solid #12151d;
+      border-radius: 30px;
+      overflow: hidden;
+      background: #fff;
+      box-shadow: 0 18px 42px rgba(19, 45, 83, .16);
+    }
+
+    .screen-shot:nth-child(2) {
+      width: 36%;
+      transform: translateY(-28px);
+    }
+
+    .reviews {
+      background: #eaf3ff;
+      border-top: 1px solid rgba(8, 119, 255, .08);
+      border-bottom: 1px solid rgba(8, 119, 255, .08);
+    }
+
+    .review-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .review {
+      border: 1px solid rgba(8, 119, 255, .12);
+      border-radius: var(--radius);
+      background: #fff;
+      padding: 22px;
+      min-height: 230px;
+    }
+
+    .stars {
+      color: #ffb800;
+      font-weight: 900;
+      margin-bottom: 14px;
+    }
+
+    .review p {
+      margin: 0 0 18px;
+      color: #293241;
+    }
+
+    .review strong { display: block; }
+
+    .review span {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .faq-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    details {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #fff;
+      padding: 20px;
+    }
+
+    summary {
+      cursor: pointer;
+      font-weight: 850;
+      list-style: none;
+    }
+
+    summary::-webkit-details-marker { display: none; }
+
+    details p {
+      margin: 12px 0 0;
+      color: var(--muted);
+    }
+
+    .final {
+      padding: 84px 0;
+      background: #10151f;
+      color: #fff;
+      text-align: center;
+    }
+
+    .final h2 {
+      max-width: 720px;
+      margin: 0 auto 18px;
+      font-size: clamp(34px, 5vw, 58px);
+      line-height: 1;
+    }
+
+    .final p {
+      max-width: 580px;
+      margin: 0 auto 28px;
+      color: #c8d1df;
+      font-size: 18px;
+    }
+
+    .final .download-grid {
+      margin: 0 auto;
+    }
+
+    .footer {
+      padding: 32px 0;
+      background: #0b1018;
+      color: #92a0b3;
+      font-size: 14px;
+    }
+
+    .footer__inner {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    @media (max-width: 940px) {
+      .nav__links { display: none; }
+      .hero { padding-top: 44px; }
+      .hero__grid,
+      .screens,
+      .proof-grid {
+        grid-template-columns: 1fr;
+      }
+      .phone-stage {
+        min-height: 560px;
+        max-width: 520px;
+        margin: 0 auto;
+      }
+      .phone--main { left: 44%; transform: translateX(-50%) rotate(3deg); }
+      .phone--side { left: 2%; }
+      .phone--back { right: 3%; }
+      .trust-card { right: 0; }
+      .steps,
+      .review-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .container { width: min(100% - 28px, 1160px); }
+      .nav__cta { display: none; }
+      .hero__meta,
+      .download-grid,
+      .faq-grid {
+        grid-template-columns: 1fr;
+      }
+      .lead { font-size: 17px; }
+      .phone-stage {
+        min-height: 620px;
+        width: 100vw;
+        max-width: 100vw;
+        margin-left: calc(50% - 50vw);
+        margin-right: calc(50% - 50vw);
+        overflow: hidden;
+      }
+      .phone {
+        width: 208px;
+        border-width: 8px;
+        border-radius: 30px;
+      }
+      .phone--main { top: 0; left: 52%; }
+      .phone--side { top: 112px; left: 8px; }
+      .phone--back { display: none; }
+      .trust-card {
+        top: 380px;
+        left: 50%;
+        right: auto;
+        width: min(260px, calc(100% - 28px));
+        transform: translateX(-50%);
+      }
+      section { padding: 62px 0; }
+      .screen-strip {
+        min-height: auto;
+        overflow-x: auto;
+        padding: 8px 0 18px;
+        scroll-snap-type: x mandatory;
+      }
+      .screen-shot,
+      .screen-shot:nth-child(2) {
+        flex: 0 0 220px;
+        width: 220px;
+        transform: none;
+        scroll-snap-align: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header class="nav">
+      <div class="container nav__inner">
+        <a class="brand" href="#top" aria-label="Просто Рубль">
+          <span class="brand__mark"><img src="assets/app-logo.png" alt=""></span>
+          <span>Просто Рубль</span>
+        </a>
+        <nav class="nav__links" aria-label="Навигация">
+          <a href="#how">Как работает</a>
+          <a href="#trust">Преимущества</a>
+          <a href="#reviews">Отзывы</a>
+          <a href="#faq">FAQ</a>
+        </nav>
+        <a class="nav__cta" href="#download">Скачать бесплатно</a>
+      </div>
+    </header>
+
+    <main id="top">
+      <section class="hero">
+        <div class="container hero__grid">
+          <div>
+            <span class="eyebrow">Простые задания за реальные деньги</span>
+            <h1>Зарабатывай просто. Быстро. Без вложений.</h1>
+            <p class="lead">Выполняй легкие задания за 1-3 минуты и получай реальные деньги на карту. Без подписок, без скрытых комиссий, без опыта.</p>
+            <div class="download-grid" id="download" aria-label="Ссылки скачивания">
+              <a class="store-btn" href="https://apps.apple.com/ru/app/%D0%BF%D1%80%D0%BE%D1%81%D1%82%D0%BE-%D1%80%D1%83%D0%B1%D0%BB%D1%8C/id6761462665">
+                <span class="store-btn__icon" aria-hidden="true">
+                  <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M19.34 14.72c-.03-2.68 2.18-3.96 2.28-4.02-1.25-1.82-3.19-2.07-3.88-2.1-1.65-.17-3.22.97-4.06.97-.84 0-2.14-.95-3.52-.92-1.81.03-3.48 1.05-4.41 2.67-1.88 3.26-.48 8.08 1.35 10.72.9 1.3 1.97 2.76 3.37 2.71 1.35-.05 1.86-.87 3.5-.87 1.63 0 2.1.87 3.53.84 1.46-.03 2.39-1.32 3.28-2.62 1.03-1.51 1.45-2.96 1.48-3.04-.03-.01-2.89-1.11-2.92-4.34Z" fill="#111827"/>
+                    <path d="M16.66 6.86c.75-.91 1.25-2.17 1.11-3.43-1.07.04-2.37.72-3.14 1.62-.69.8-1.29 2.08-1.13 3.31 1.2.09 2.42-.61 3.16-1.5Z" fill="#111827"/>
+                  </svg>
+                </span>
+                <span><small>Скачать в</small>App Store</span>
+              </a>
+              <a class="store-btn" href="https://play.google.com/store/apps/details?id=ru.wz.simpletasks&amp;hl=ru">
+                <span class="store-btn__icon" aria-hidden="true">
+                  <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M4.2 3.4c-.42.44-.7 1.12-.7 2v17.2c0 .88.28 1.56.7 2l10.3-10.6L4.2 3.4Z" fill="#34A853"/>
+                    <path d="m17.72 10.68-3.22 3.32 3.22 3.32 4.38-2.5c1.2-.68 1.2-1.96 0-2.64l-4.38-2.5Z" fill="#FBBC04"/>
+                    <path d="M4.2 3.4 17.72 10.68 14.5 14 4.2 3.4Z" fill="#4285F4"/>
+                    <path d="M4.2 24.6 17.72 17.32 14.5 14 4.2 24.6Z" fill="#EA4335"/>
+                  </svg>
+                </span>
+                <span><small>Скачать в</small>Google Play</span>
+              </a>
+              <a class="store-btn" href="https://www.rustore.ru/catalog/search?query=%D0%9F%D1%80%D0%BE%D1%81%D1%82%D0%BE%20%D0%A0%D1%83%D0%B1%D0%BB%D1%8C" target="_blank" rel="noreferrer noopener">
+                <span class="store-btn__icon" aria-hidden="true"><img src="assets/rustore-icon.svg" alt=""></span>
+                <span><small>Найти в</small>RuStore</span>
+              </a>
+              <a class="store-btn" href="https://t.me/wzsimple_bot" target="_blank" rel="noreferrer noopener">
+                <span class="store-btn__icon" aria-hidden="true">
+                  <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="14" cy="14" r="14" fill="#26A5E4"/>
+                    <path d="M21.72 8.1 19.6 20.04c-.16.82-.62 1.02-1.26.63l-3.42-2.52-1.65 1.59c-.18.18-.34.34-.7.34l.25-3.48 6.34-5.72c.28-.25-.06-.39-.43-.14l-7.83 4.93-3.37-1.05c-.73-.23-.75-.73.15-1.08l13.18-5.08c.61-.23 1.14.15.86.64Z" fill="white"/>
+                  </svg>
+                </span>
+                <span><small>Открыть</small>Telegram</span>
+              </a>
+            </div>
+            <div class="hero__meta">
+              <div class="metric"><strong>500К+</strong><span>тысяч пользователей</span></div>
+              <div class="metric"><strong>4.8 ★</strong><span>рейтинг в магазинах</span></div>
+              <div class="metric"><strong>0 ₽</strong><span>вложений и подписок</span></div>
+            </div>
+          </div>
+          <div class="phone-stage" aria-label="Экраны приложения">
+            <div class="phone phone--side"><img src="assets/interests.png" alt="Экран выбора интересов"></div>
+            <div class="phone phone--main"><img src="assets/step-8.png" alt="Экран назначенного задания"></div>
+            <div class="phone phone--back"><img src="assets/step-7.png" alt="Экран нового задания"></div>
+            <div class="trust-card">
+              <strong>Задания на 1-3 минуты</strong>
+              <span>Выполняй в дороге, на отдыхе или дома.</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="how">
+        <div class="container">
+          <div class="section-head">
+            <h2>Как начать зарабатывать</h2>
+            <p>Никаких сложных условий или долгих ожиданий. Все просто.</p>
+          </div>
+          <div class="steps">
+            <article class="step">
+              <div>
+                <div class="step__num">1</div>
+                <h3>Установи приложение</h3>
+                <p>Бесплатно из App Store, Google Play или RuStore. Регистрация занимает 30 секунд - только email.</p>
+              </div>
+            </article>
+            <article class="step">
+              <div>
+                <div class="step__num">2</div>
+                <h3>Выбери задание</h3>
+                <p>Опросы, подписки, лайки, просмотр видео. Все понятно с первого взгляда. Выбери то, что нравится.</p>
+              </div>
+            </article>
+            <article class="step">
+              <div>
+                <div class="step__num">3</div>
+                <h3>Получи деньги</h3>
+                <p>Выплаты от 100 ₽ на карту или Яндекс кошелек. Без комиссий.</p>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="proof" id="trust">
+        <div class="container">
+          <div class="section-head">
+            <h2>Почему нам доверяют</h2>
+            <p>Мы создали приложение, которое делает заработок максимально простым и прозрачным.</p>
+          </div>
+          <div class="proof-grid">
+            <div class="proof-card">
+              <strong>Мгновенный старт</strong>
+              <p>Зарегистрировался - и сразу доступны задания. Не нужно ждать подтверждения или прохождения тестов.</p>
+            </div>
+            <div class="proof-card">
+              <strong>Реальные выплаты</strong>
+              <p>Деньги на карту или Яндекс кошелек. Минимальная сумма вывода - всего 100 ₽. Без скрытых комиссий.</p>
+            </div>
+            <div class="proof-card">
+              <strong>Полная безопасность</strong>
+              <p>Никаких вложений, подписок или рисков. Приложение доступно в официальных магазинах.</p>
+            </div>
+            <div class="proof-card">
+              <strong>Удобно и быстро</strong>
+              <p>Задания на 1-3 минуты в любое время. Зарабатывай в дороге, на отдыхе или дома - как удобно.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <div class="container screens">
+          <div class="screen-copy">
+            <h2>Приложение понятно с первого взгляда</h2>
+            <p>Выбирай интересы, получай подходящие задания и переходи к выполнению прямо из карточки.</p>
+            <div class="screen-list">
+              <div><b>01</b><span>Интуитивный интерфейс помогает разобраться за минуту.</span></div>
+              <div><b>02</b><span>Опросы, подписки, лайки и просмотры собраны в одном месте.</span></div>
+              <div><b>03</b><span>Стоимость и описание задания видны до начала выполнения.</span></div>
+            </div>
+          </div>
+          <div class="screen-strip" aria-label="Скриншоты приложения">
+            <div class="screen-shot"><img src="assets/step-4.png" alt="Экран знакомства с ботом"></div>
+            <div class="screen-shot"><img src="assets/interests.png" alt="Экран интересов"></div>
+            <div class="screen-shot"><img src="assets/step-7.png" alt="Экран карточки задания"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="reviews" id="reviews">
+        <div class="container">
+          <div class="section-head">
+            <h2>Что говорят пользователи</h2>
+            <p>Реальные отзывы от людей, которые уже зарабатывают с Просто Рубль.</p>
+          </div>
+          <div class="review-grid">
+            <article class="review">
+              <div class="stars">★★★★★</div>
+              <p>Заработала 300 ₽ за вечер, пока смотрела сериал. Вывела на телефон - пришло за 5 минут! Приложение супер простое.</p>
+              <strong>Анна К.</strong>
+              <span>Студентка, 22 года</span>
+            </article>
+            <article class="review">
+              <div class="stars">★★★★★</div>
+              <p>Никаких подводных камней. Задания простые, приложение не тормозит. За месяц накопил 8000 ₽ - на новые наушники хватило.</p>
+              <strong>Дмитрий П.</strong>
+              <span>Менеджер, 31 год</span>
+            </article>
+            <article class="review">
+              <div class="stars">★★★★★</div>
+              <p>Идеально для студентов. 15-20 минут в день между парами - и на кофе с булочкой хватает. Никаких подписок, все честно.</p>
+              <strong>Мария Л.</strong>
+              <span>Студентка, 19 лет</span>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="faq">
+        <div class="container">
+          <div class="section-head">
+            <h2>Частые вопросы</h2>
+            <p>Не нашли ответ? Напишите нам в поддержку - ответим за 5 минут.</p>
+          </div>
+          <div class="faq-grid">
+            <details>
+              <summary>Это действительно бесплатно?</summary>
+              <p>Да. Скачивание, регистрация и выполнение заданий не требуют оплаты. Мы не берем комиссий с пользователей и не предлагаем платных подписок. Приложение монетизируется за счет рекламодателей и партнеров.</p>
+            </details>
+            <details>
+              <summary>Нужен ли опыт или специальные знания?</summary>
+              <p>Нет. Все задания адаптированы под обычные действия в интернете: лайки, подписки, просмотр видео, короткие опросы. Интуитивный интерфейс поможет разобраться за минуту.</p>
+            </details>
+            <details>
+              <summary>Сколько можно заработать?</summary>
+              <p>В среднем пользователи зарабатывают от 500 до 1500 ₽ в день, выполняя задания в свободное время. Доход зависит от активности, доступных заданий и региона. Чем больше заданий выполняете - тем больше зарабатываете.</p>
+            </details>
+            <details>
+              <summary>Есть ли подписка или автопродление?</summary>
+              <p>Нет. Приложение полностью бесплатное для пользователей. Никаких подписок, скрытых платежей или обязательных покупок. Вы можете удалить приложение в любой момент без последствий.</p>
+            </details>
+          </div>
+        </div>
+      </section>
+
+      <section class="final">
+        <div class="container">
+          <h2>Начни зарабатывать уже сегодня</h2>
+          <p>Установи приложение за 30 секунд. Первые деньги - через несколько минут после первого задания.</p>
+          <div class="download-grid" aria-label="Повторные ссылки скачивания">
+            <a class="store-btn" href="https://apps.apple.com/ru/app/%D0%BF%D1%80%D0%BE%D1%81%D1%82%D0%BE-%D1%80%D1%83%D0%B1%D0%BB%D1%8C/id6761462665">
+              <span class="store-btn__icon" aria-hidden="true">
+                <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M19.34 14.72c-.03-2.68 2.18-3.96 2.28-4.02-1.25-1.82-3.19-2.07-3.88-2.1-1.65-.17-3.22.97-4.06.97-.84 0-2.14-.95-3.52-.92-1.81.03-3.48 1.05-4.41 2.67-1.88 3.26-.48 8.08 1.35 10.72.9 1.3 1.97 2.76 3.37 2.71 1.35-.05 1.86-.87 3.5-.87 1.63 0 2.1.87 3.53.84 1.46-.03 2.39-1.32 3.28-2.62 1.03-1.51 1.45-2.96 1.48-3.04-.03-.01-2.89-1.11-2.92-4.34Z" fill="#111827"/>
+                  <path d="M16.66 6.86c.75-.91 1.25-2.17 1.11-3.43-1.07.04-2.37.72-3.14 1.62-.69.8-1.29 2.08-1.13 3.31 1.2.09 2.42-.61 3.16-1.5Z" fill="#111827"/>
+                </svg>
+              </span>
+              <span><small>Скачать в</small>App Store</span>
+            </a>
+            <a class="store-btn" href="https://play.google.com/store/apps/details?id=ru.wz.simpletasks&amp;hl=ru">
+              <span class="store-btn__icon" aria-hidden="true">
+                <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M4.2 3.4c-.42.44-.7 1.12-.7 2v17.2c0 .88.28 1.56.7 2l10.3-10.6L4.2 3.4Z" fill="#34A853"/>
+                  <path d="m17.72 10.68-3.22 3.32 3.22 3.32 4.38-2.5c1.2-.68 1.2-1.96 0-2.64l-4.38-2.5Z" fill="#FBBC04"/>
+                  <path d="M4.2 3.4 17.72 10.68 14.5 14 4.2 3.4Z" fill="#4285F4"/>
+                  <path d="M4.2 24.6 17.72 17.32 14.5 14 4.2 24.6Z" fill="#EA4335"/>
+                </svg>
+              </span>
+              <span><small>Скачать в</small>Google Play</span>
+            </a>
+            <a class="store-btn" href="https://www.rustore.ru/catalog/search?query=%D0%9F%D1%80%D0%BE%D1%81%D1%82%D0%BE%20%D0%A0%D1%83%D0%B1%D0%BB%D1%8C" target="_blank" rel="noreferrer noopener">
+              <span class="store-btn__icon" aria-hidden="true"><img src="assets/rustore-icon.svg" alt=""></span>
+              <span><small>Найти в</small>RuStore</span>
+            </a>
+            <a class="store-btn" href="https://t.me/wzsimple_bot" target="_blank" rel="noreferrer noopener">
+              <span class="store-btn__icon" aria-hidden="true">
+                <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="14" cy="14" r="14" fill="#26A5E4"/>
+                  <path d="M21.72 8.1 19.6 20.04c-.16.82-.62 1.02-1.26.63l-3.42-2.52-1.65 1.59c-.18.18-.34.34-.7.34l.25-3.48 6.34-5.72c.28-.25-.06-.39-.43-.14l-7.83 4.93-3.37-1.05c-.73-.23-.75-.73.15-1.08l13.18-5.08c.61-.23 1.14.15.86.64Z" fill="white"/>
+                </svg>
+              </span>
+              <span><small>Открыть</small>Telegram</span>
+            </a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="container footer__inner">
+        <span>© Просто Рубль</span>
+        <span>App Store, Google Play, RuStore и Telegram - официальные точки входа.</span>
+      </div>
+    </footer>
+  </div>
+</body>
+</html>
